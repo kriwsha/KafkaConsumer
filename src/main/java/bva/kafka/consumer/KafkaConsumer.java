@@ -11,6 +11,9 @@ public class KafkaConsumer implements ConsumerService {
     @Autowired
     private HandlerService service;
 
+    @Autowired
+    private ConsumerConfiguration configuration;
+
     @Override
     public void start() {
         service.handle("");

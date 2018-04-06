@@ -1,9 +1,16 @@
 package bva.kafka.consumer;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 @Configuration
-@Component
-public class ConsumerConfiguration {
+@ConfigurationProperties(prefix = "kafka.props")
+class ConsumerConfiguration {
+    private Map<String, String> kafkaProps;
+
+    public Map<String, String> getKafkaProps() {
+        return kafkaProps;
+    }
 }
