@@ -6,15 +6,24 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
-@ConfigurationProperties(prefix="kafka")
+@ConfigurationProperties(prefix = "cons")
 class ConsumerConfiguration {
-    private Map<String, String> props;
+    private Map<String, String> kafkaProps;
+    private Map<String, String> zkProps;
 
-    public Map<String, String> getProps() {
-        return props;
+    public Map<String, String> getKafkaProps() {
+        return kafkaProps;
     }
 
-    public void setProps(Map<String, String> props) {
-        this.props = props;
+    public void setKafkaProps(Map<String, String> kafkaProps) {
+        this.kafkaProps = kafkaProps;
+    }
+
+    public Map<String, String> getZkProps() {
+        return zkProps;
+    }
+
+    public void setZkProps(Map<String, String> zkProps) {
+        this.zkProps = zkProps;
     }
 }

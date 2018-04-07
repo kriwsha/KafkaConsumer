@@ -18,8 +18,9 @@ public class KafkaConsumer implements ConsumerService {
 
     @Override
     public void start() {
-        Map<String, String> map = configuration.getProps();
-        //service.handle("");
+        Map<String, String> map1 = configuration.getKafkaProps();
+        Map<String, String> map2 = configuration.getZkProps();
+//        service.handle("");
         System.out.println();
     }
 }
