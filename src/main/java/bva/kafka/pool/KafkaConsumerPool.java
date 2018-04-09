@@ -57,11 +57,11 @@ public class KafkaConsumerPool {
         }
     }
 
-    private KafkaWorker createConsumerWorker() throws DestinationCreateException {
+    private KafkaWorker createConsumerWorker() throws Exception{
         try{
-            return new KafkaWorker(this.settings, _factory, _latch,_cancelToken);
+            return new KafkaWorker(this.settings, factory, latch, cancelToken);
         } catch(Exception e){
-            _latch.countDown (); // Минусуем счетчик, т.к. создать поток не получилось
+            latch.countDown (); // Минусуем счетчик, т.к. создать поток не получилось
             throw  e;
         }
     }

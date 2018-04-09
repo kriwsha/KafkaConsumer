@@ -1,7 +1,6 @@
 package bva.kafka;
 
 import bva.kafka.lib.ConsumerService;
-import bva.kafka.pool.KafkaSourceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -21,7 +20,17 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		consumer.start();
+		try {
+			Thread thread = new Thread(() -> consumer.start());
+			thread.start();
+
+			Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+				System.out.println("Shutting down...");
+				consumer.stop();
+			}));
+		} catch (Exception ex) {
+			System.out.println("error while consumer threads execution" + ex.getMessage());
+		}
 	}
 
 	public static void main(String[] args) throws Exception {

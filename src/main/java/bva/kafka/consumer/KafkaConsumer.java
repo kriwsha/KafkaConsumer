@@ -6,21 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 @Component
 public class KafkaConsumer implements ConsumerService {
 
-//    @Autowired
-//    private HandlerService service;
-
     @Autowired
     private ConsumerConfiguration configuration;
 
+    private CountDownLatch latch;
+
     @Override
     public void start() {
-        Map<String, String> map1 = configuration.getKafkaProps();
-        Map<String, String> map2 = configuration.getZkProps();
-//        service.handle("");
-        System.out.println();
+        System.out.println("Start consumer");
+    }
+
+    @Override
+    public void stop() {
+        System.out.println("Close consumer");
     }
 }
