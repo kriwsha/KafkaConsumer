@@ -25,8 +25,8 @@ public class Application implements CommandLineRunner {
 			thread.start();
 
 			Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-				System.out.println("Shutting down...");
 				consumer.stop();
+				System.out.println("Shutting down...");
 			}));
 		} catch (Exception ex) {
 			System.out.println("error while consumer threads execution" + ex.getMessage());
