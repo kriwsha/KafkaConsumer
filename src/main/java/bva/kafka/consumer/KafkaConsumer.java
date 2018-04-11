@@ -24,10 +24,17 @@ public class KafkaConsumer implements ConsumerService {
     public void start() {
         try {
             System.out.println("Start consumer");
-            for (int i=0; i<10; i++) {
-                System.out.println(i + " - Consumer");
-                Thread.sleep(1000);
-            }
+
+
+
+
+
+
+
+
+
+
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -43,6 +50,7 @@ public class KafkaConsumer implements ConsumerService {
         } catch (InterruptedException ex) {
             System.out.println(ex.getMessage());
         }
+
         System.out.println("Close consumer");
     }
 
