@@ -5,7 +5,7 @@ import org.apache.zookeeper.ZooKeeper;
 
 import java.io.IOException;
 
-public class ZookeeperOffsetStorage {
+public class ZookeeperOffsetStorage implements OffsetStorage{
     private ZooKeeper zk;
     private String path;
     private final int ZOO_TIMEOUT = 20000;
@@ -16,6 +16,15 @@ public class ZookeeperOffsetStorage {
                 (WatchedEvent watchedEvent) -> {
                     System.out.println("process");
                 });
+    }
+
+    public void commitOffset() {
+
+    }
+
+    @Override
+    public long getOffset() {
+        return 0;
     }
 
     public void close() throws InterruptedException {
