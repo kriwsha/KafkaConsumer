@@ -18,6 +18,7 @@ public class ZookeeperOffsetStorage implements OffsetStorage{
                 });
     }
 
+    @Override
     public void commitOffset() {
 
     }
@@ -27,6 +28,7 @@ public class ZookeeperOffsetStorage implements OffsetStorage{
         return 0;
     }
 
+    @Override
     public void close() throws InterruptedException {
         zk.close();
     }

@@ -10,6 +10,7 @@ import java.util.Map;
 class ConsumerConfiguration {
     private Map<String, String> kafkaProps;
     private Map<String, String> zkProps;
+    private String topic;
 
     public Map<String, String> getKafkaProps() {
         return kafkaProps;
@@ -25,5 +26,13 @@ class ConsumerConfiguration {
 
     public void setZkProps(Map<String, String> zkProps) {
         this.zkProps = zkProps;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 }
