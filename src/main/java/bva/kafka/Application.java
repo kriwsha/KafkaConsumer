@@ -33,7 +33,7 @@ public class Application implements CommandLineRunner {
 		}
 	}
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		SpringApplication app = new SpringApplication(Application.class);
 		app.setShowBanner(false);
 		app.run(args);
