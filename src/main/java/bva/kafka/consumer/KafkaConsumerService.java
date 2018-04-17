@@ -1,9 +1,6 @@
 package bva.kafka.consumer;
 
-import bva.kafka.lib.CancelToken;
-import bva.kafka.lib.ConsumerService;
-import bva.kafka.lib.HandlerService;
-import bva.kafka.lib.Props;
+import bva.kafka.lib.*;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +22,7 @@ public class KafkaConsumerService implements ConsumerService {
     private ConsumerConfiguration configuration;
 
     @Autowired
-    private HandlerService handler;
+    private ServiceFactory serviceFactory;
 
     @Override
     public void start() {
@@ -67,10 +64,12 @@ public class KafkaConsumerService implements ConsumerService {
         @Override
         public void run() {
             System.out.println(String.format("Start execution on partition %d", partitionNumber));
+            HandlerService handlerService = serviceFactory.getServiceById(configuration.getServiceId());
 
             while (!token.isCancel()) {
 
             }
+
             latch.countDown();
         }
     }

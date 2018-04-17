@@ -11,6 +11,7 @@ class ConsumerConfiguration {
     private Map<String, String> kafkaProps;
     private Map<String, String> zkProps;
     private String topic;
+    private String serviceId;
 
     public Map<String, String> getKafkaProps() {
         return kafkaProps;
@@ -34,5 +35,13 @@ class ConsumerConfiguration {
 
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+    public String getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
     }
 }
