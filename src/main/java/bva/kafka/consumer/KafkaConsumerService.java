@@ -19,7 +19,10 @@ public class KafkaConsumerService implements ConsumerService {
     private CountDownLatch latch = new CountDownLatch(0);
 
     @Autowired
-    private ConsumerConfiguration configuration;
+    private ConsumerConfiguration consumerConfiguration;
+
+    @Autowired
+    private HandlerServiceConfiguration handlerConfiguration;
 
     @Autowired
     private ServiceFactory serviceFactory;
@@ -28,8 +31,8 @@ public class KafkaConsumerService implements ConsumerService {
     public void start() {
         try {
             System.out.println("Start consumer");
-            KafkaConsumer consumer = new KafkaConsumer<String, String>(Props.of(configuration.getKafkaProps()));
-            int partitionsCount = consumer.partitionsFor(configuration.getTopic()).size();
+            KafkaConsumer consumer = new KafkaConsumer<String, String>(Props.of(consumerConfiguration.getKafkaProps()));
+            int partitionsCount = consumer.partitionsFor(consumerConfiguration.getTopic()).size();
             latch = new CountDownLatch(partitionsCount);
             ExecutorService executor = Executors.newFixedThreadPool(partitionsCount);
             List<Callable<Object>> threads = new ArrayList<>();
@@ -64,7 +67,7 @@ public class KafkaConsumerService implements ConsumerService {
         @Override
         public void run() {
             System.out.println(String.format("Start execution on partition %d", partitionNumber));
-            HandlerService handlerService = serviceFactory.getServiceById(configuration.getServiceId());
+            HandlerService handlerService = serviceFactory.getServiceById(handlerConfiguration.getServiceId());
 
             while (!token.isCancel()) {
 

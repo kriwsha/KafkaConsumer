@@ -9,9 +9,8 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "cons")
 class ConsumerConfiguration {
     private Map<String, String> kafkaProps;
-    private Map<String, String> zkProps;
     private String topic;
-    private String serviceId;
+
 
     public Map<String, String> getKafkaProps() {
         return kafkaProps;
@@ -21,27 +20,11 @@ class ConsumerConfiguration {
         this.kafkaProps = kafkaProps;
     }
 
-    public Map<String, String> getZkProps() {
-        return zkProps;
-    }
-
-    public void setZkProps(Map<String, String> zkProps) {
-        this.zkProps = zkProps;
-    }
-
     public String getTopic() {
         return topic;
     }
 
     public void setTopic(String topic) {
         this.topic = topic;
-    }
-
-    public String getServiceId() {
-        return serviceId;
-    }
-
-    public void setServiceId(String serviceId) {
-        this.serviceId = serviceId;
     }
 }

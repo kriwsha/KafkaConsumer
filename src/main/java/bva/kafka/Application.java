@@ -29,7 +29,7 @@ public class Application implements CommandLineRunner {
 				System.out.println("Shutting down...");
 			}));
 		} catch (Exception ex) {
-			System.out.println("error while consumer threads execution" + ex.getMessage());
+			System.out.println("error while consumer threads execution: " + ex.getMessage());
 		}
 	}
 
