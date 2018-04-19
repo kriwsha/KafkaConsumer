@@ -1,5 +1,6 @@
 package bva.kafka.lib;
 
+import org.apache.kafka.common.TopicPartition;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.ZooKeeper;
 
@@ -19,7 +20,8 @@ public class ZookeeperOffsetStorage implements OffsetStorage{
     }
 
     @Override
-    public void commitOffset() {
+    public void commitOffset(TopicPartition partition, long position) {
+        String fullPath = createFullPath(partition.topic(), partition.partition());
 
     }
 
@@ -31,5 +33,10 @@ public class ZookeeperOffsetStorage implements OffsetStorage{
     @Override
     public void close() throws InterruptedException {
         zk.close();
+    }
+
+    private String createFullPath(String topik, int partition) {
+        String pathToTopik = path.endsWith("/")? path : String.format("%s/", path);
+        return String.format("%s%s/%s", pathToTopik, topik, partition);
     }
 }
