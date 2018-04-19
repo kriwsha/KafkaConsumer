@@ -22,6 +22,7 @@ public class ZookeeperOffsetStorage implements OffsetStorage{
     @Override
     public void commitOffset(TopicPartition partition, long position) {
         String fullPath = createFullPath(partition.topic(), partition.partition());
+        byte[] positionByteView = String.valueOf(position).getBytes();
 
     }
 
