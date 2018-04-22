@@ -9,7 +9,6 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "handler")
 public class HandlerServiceConfiguration {
     private Map<String, String> zkProps;
-
     private String serviceId;
 
     public Map<String, String> getZkProps() {

@@ -1,9 +1,10 @@
 package bva.kafka.lib;
 
+import bva.kafka.exceptions.KafkaSourceException;
 import org.apache.kafka.common.TopicPartition;
 
 public interface OffsetStorage {
-    void commitOffset(TopicPartition partition, long position) throws Exception;// TODO: 20.04.2018 поправить вид исключения
-    long getOffset(String path) throws Exception;// TODO: 20.04.2018 поправить вид исключения
-    void close() throws Exception;
+    void commitOffset(TopicPartition partition, long position) throws KafkaSourceException;
+    long getOffset(String path) throws KafkaSourceException;
+    void close() throws InterruptedException;
 }

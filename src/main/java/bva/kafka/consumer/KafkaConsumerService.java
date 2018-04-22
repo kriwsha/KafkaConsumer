@@ -71,8 +71,9 @@ public class KafkaConsumerService implements ConsumerService {
 
             while (!token.isCancel()) {
 
-            }
+                // TODO: 22.04.2018 realize
 
+            }
             latch.countDown();
         }
     }

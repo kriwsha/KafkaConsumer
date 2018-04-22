@@ -11,7 +11,6 @@ class ConsumerConfiguration {
     private Map<String, String> kafkaProps;
     private String topic;
 
-
     public Map<String, String> getKafkaProps() {
         return kafkaProps;
     }
