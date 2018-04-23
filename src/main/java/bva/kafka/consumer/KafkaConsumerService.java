@@ -1,15 +1,14 @@
 package bva.kafka.consumer;
 
+import bva.kafka.ext.CancelToken;
+import bva.kafka.ext.Props;
 import bva.kafka.lib.*;
-import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.*;
 
 @Component

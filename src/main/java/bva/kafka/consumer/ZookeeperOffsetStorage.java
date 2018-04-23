@@ -1,7 +1,8 @@
-package bva.kafka.lib;
+package bva.kafka.consumer;
 
 import bva.kafka.exceptions.OffsetStorageException;
 import bva.kafka.exceptions.WrongOffsetException;
+import bva.kafka.lib.OffsetStorage;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;

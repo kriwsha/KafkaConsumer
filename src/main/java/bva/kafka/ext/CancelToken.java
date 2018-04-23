@@ -1,4 +1,4 @@
-package bva.kafka.lib;
+package bva.kafka.ext;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

@@ -1,5 +1,7 @@
-package bva.kafka.lib;
+package bva.kafka.ext;
 
+import bva.kafka.lib.HandlerService;
+import bva.kafka.lib.ServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
