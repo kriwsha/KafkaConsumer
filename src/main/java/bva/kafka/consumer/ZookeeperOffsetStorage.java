@@ -19,10 +19,14 @@ public class ZookeeperOffsetStorage implements OffsetStorage {
 
     private ZooKeeper zk;
     private String path;
+    private TopicPartition topicPartition;
+    private String offsetStoragePath;
     private final int ZOO_TIMEOUT = 20000;
 
-    public ZookeeperOffsetStorage(String hosts, String path) throws IOException {
+    public ZookeeperOffsetStorage(String hosts, String path, TopicPartition topicPartition) throws IOException {
         this.path = path;
+        this.topicPartition = topicPartition;
+        this.offsetStoragePath = createFullPath(topicPartition.topic(), topicPartition.partition());
         this.zk = new ZooKeeper(hosts, ZOO_TIMEOUT,
                 (WatchedEvent watchedEvent) -> {
                     logger.debug("Start Zookeeper offset storage process");
@@ -30,15 +34,14 @@ public class ZookeeperOffsetStorage implements OffsetStorage {
     }
 
     @Override
-    public void commitOffset(TopicPartition partition, long position) throws OffsetStorageException {
-        logger.debug(String.format("Commit offset:: partition: %s; position: %s", partition, position));
-        String fullPath = createFullPath(partition.topic(), partition.partition());
+    public void commitOffset(long position) throws OffsetStorageException {
+        logger.debug(String.format("Commit offset:: partition: %s; position: %s", topicPartition.partition(), position));
         try {
-            long previousPosition = getOffset(fullPath);
+            long previousPosition = getOffset(offsetStoragePath);
             if (previousPosition < position) {
                 updatePosition(path, position);
             } else {
-                throw new WrongOffsetException(String.format("Bad offset in: %s, current: %d, new: %d", fullPath, position, previousPosition)); // TODO: 20.04.2018 изменить на WrongOffsetException
+                throw new WrongOffsetException(String.format("Bad offset in: %s, current: %d, new: %d", offsetStoragePath, position, previousPosition)); // TODO: 20.04.2018 изменить на WrongOffsetException
             }
         } catch (KeeperException ex) {
             throw new OffsetStorageException(ex);

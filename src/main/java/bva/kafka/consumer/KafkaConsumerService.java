@@ -4,6 +4,7 @@ import bva.kafka.ext.CancelToken;
 import bva.kafka.ext.Props;
 import bva.kafka.lib.*;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.TopicPartition;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class KafkaConsumerService implements ConsumerService {
             ExecutorService executor = Executors.newFixedThreadPool(partitionsCount);
             List<Callable<Object>> threads = new ArrayList<>();
             for (int partitionNumber=0; partitionNumber<partitionsCount; partitionNumber++)
-                threads.add(Executors.callable(new Worker(partitionNumber)));
+                threads.add(Executors.callable(new Worker(new TopicPartition(consumerConfiguration.getTopic(), partitionNumber))));
             executor.invokeAll(threads);
         } catch (Exception ex) {
             logger.info("Error while consumer execution", ex);
@@ -60,15 +61,15 @@ public class KafkaConsumerService implements ConsumerService {
     }
 
     class Worker implements Runnable {
-        private int partitionNumber;
+        private TopicPartition topicPartition;
 
-        Worker(int partitionNumber) {
-            this.partitionNumber = partitionNumber;
+        Worker(TopicPartition topicPartition) {
+            this.topicPartition = topicPartition;
         }
 
         @Override
         public void run() {
-            logger.info(String.format("Start execution on partition %d", partitionNumber));
+            logger.info(String.format("Start execution on partition %d", topicPartition.partition()));
             HandlerService handlerService = serviceFactory.getServiceById(handlerConfiguration.getServiceId());
 
             while (!token.isCancel()) {
