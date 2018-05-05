@@ -1,6 +1,8 @@
 package bva.kafka;
 
 import bva.kafka.lib.ConsumerService;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties
 @ComponentScan
 public class Application implements CommandLineRunner {
+	private static final Logger logger = LogManager.getLogger(Application.class);
 
 	@Autowired
 	private ConsumerService consumer;
@@ -26,10 +29,10 @@ public class Application implements CommandLineRunner {
 
 			Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 				consumer.stop();
-				System.out.println("Shutting down...");
+				logger.info("Shutting down...");
 			}));
 		} catch (Exception ex) {
-			System.out.println("error while consumer threads execution: " + ex.getMessage());
+			logger.error("Error while consumer threads execution", ex);
 		}
 	}
 

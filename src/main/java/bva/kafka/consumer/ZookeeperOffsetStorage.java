@@ -4,6 +4,8 @@ import bva.kafka.exceptions.OffsetStorageException;
 import bva.kafka.exceptions.WrongOffsetException;
 import bva.kafka.lib.OffsetStorage;
 import org.apache.kafka.common.TopicPartition;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.ZooKeeper;
@@ -13,6 +15,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public class ZookeeperOffsetStorage implements OffsetStorage {
+    private static final Logger logger = LogManager.getLogger(ZookeeperOffsetStorage.class);
+
     private ZooKeeper zk;
     private String path;
     private final int ZOO_TIMEOUT = 20000;
@@ -21,12 +25,13 @@ public class ZookeeperOffsetStorage implements OffsetStorage {
         this.path = path;
         this.zk = new ZooKeeper(hosts, ZOO_TIMEOUT,
                 (WatchedEvent watchedEvent) -> {
-                    System.out.println("process");
+                    logger.debug("Start Zookeeper offset storage process");
                 });
     }
 
     @Override
     public void commitOffset(TopicPartition partition, long position) throws OffsetStorageException {
+        logger.debug(String.format("Commit offset:: partition: %s; position: %s", partition, position));
         String fullPath = createFullPath(partition.topic(), partition.partition());
         try {
             long previousPosition = getOffset(fullPath);
@@ -38,7 +43,7 @@ public class ZookeeperOffsetStorage implements OffsetStorage {
         } catch (KeeperException ex) {
             throw new OffsetStorageException(ex);
         } catch (InterruptedException ex) {
-            ex.printStackTrace();// TODO: 20.04.2018 change to logging
+            logger.error("Error while offset committing", ex);
         }
     }
 
@@ -55,6 +60,7 @@ public class ZookeeperOffsetStorage implements OffsetStorage {
 
     @Override
     public void close() throws InterruptedException {
+        logger.debug("Close Zookeeper offset storage");
         zk.close();
     }
 

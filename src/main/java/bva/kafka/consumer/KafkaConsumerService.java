@@ -4,6 +4,8 @@ import bva.kafka.ext.CancelToken;
 import bva.kafka.ext.Props;
 import bva.kafka.lib.*;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +15,7 @@ import java.util.concurrent.*;
 
 @Component
 public class KafkaConsumerService implements ConsumerService {
+    private static final Logger logger = LogManager.getLogger(KafkaConsumerService.class);
 
     private CancelToken token = new CancelToken();
     private CountDownLatch latch = new CountDownLatch(0);
@@ -29,7 +32,7 @@ public class KafkaConsumerService implements ConsumerService {
     @Override
     public void start() {
         try {
-            System.out.println("Start consumer");
+            logger.info(">>>> Start consumer");
             KafkaConsumer consumer = new KafkaConsumer<String, String>(Props.of(consumerConfiguration.getKafkaProps()));
             int partitionsCount = consumer.partitionsFor(consumerConfiguration.getTopic()).size();
             latch = new CountDownLatch(partitionsCount);
@@ -39,7 +42,7 @@ public class KafkaConsumerService implements ConsumerService {
                 threads.add(Executors.callable(new Worker(partitionNumber)));
             executor.invokeAll(threads);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.info("Error while consumer execution", ex);
         }
 
     }
@@ -53,7 +56,7 @@ public class KafkaConsumerService implements ConsumerService {
         } catch (InterruptedException ex) {
             System.out.println(ex.getMessage());
         }
-        System.out.println("Close consumer");
+        logger.error("<<<< Stop consumer");
     }
 
     class Worker implements Runnable {
@@ -65,7 +68,7 @@ public class KafkaConsumerService implements ConsumerService {
 
         @Override
         public void run() {
-            System.out.println(String.format("Start execution on partition %d", partitionNumber));
+            logger.info(String.format("Start execution on partition %d", partitionNumber));
             HandlerService handlerService = serviceFactory.getServiceById(handlerConfiguration.getServiceId());
 
             while (!token.isCancel()) {
