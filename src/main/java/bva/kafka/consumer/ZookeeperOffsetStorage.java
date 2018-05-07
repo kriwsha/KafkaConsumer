@@ -77,4 +77,8 @@ public class ZookeeperOffsetStorage implements OffsetStorage {
         String pathToTopik = path.endsWith("/")? path : String.format("%s/", path);
         return String.format("%s%s/%s", pathToTopik, topik, partition);
     }
+
+    private void createOffsetStorage(String fullPath) {
+
+    }
 }

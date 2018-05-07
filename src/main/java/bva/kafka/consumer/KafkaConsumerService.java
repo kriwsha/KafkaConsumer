@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -62,9 +63,15 @@ public class KafkaConsumerService implements ConsumerService {
 
     class Worker implements Runnable {
         private TopicPartition topicPartition;
+        private ZookeeperOffsetStorage offsetStorage;
 
-        Worker(TopicPartition topicPartition) {
+        Worker(TopicPartition topicPartition) throws IOException {
             this.topicPartition = topicPartition;
+            this.offsetStorage = new ZookeeperOffsetStorage(
+                    handlerConfiguration.getZkHosts(),
+                    handlerConfiguration.getZkPath(),
+                    topicPartition
+            );
         }
 
         @Override
