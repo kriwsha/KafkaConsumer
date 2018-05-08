@@ -6,6 +6,7 @@ import bva.kafka.lib.OffsetStorage;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.ZooKeeper;
@@ -78,7 +79,7 @@ public class ZookeeperOffsetStorage implements OffsetStorage {
         return String.format("%s%s/%s", pathToTopik, topik, partition);
     }
 
-    private void createOffsetStorage(String fullPath) {
-
+    private void createOffsetStorage(String fullPath) throws KeeperException, InterruptedException {
+        zk.create(fullPath, null, null, CreateMode.PERSISTENT);// TODO: 08.05.2018 исправить на дебаге
     }
 }
