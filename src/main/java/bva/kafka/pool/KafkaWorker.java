@@ -1,5 +1,11 @@
 package bva.kafka.pool;
 
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import java.util.concurrent.atomic.AtomicBoolean;
+
 class KafkaTlvLibraryException extends SourceKafkaException{
     public KafkaTlvLibraryException() {}
     public KafkaTlvLibraryException(String msg) {
