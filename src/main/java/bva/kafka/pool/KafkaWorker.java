@@ -1,5 +1,6 @@
 package bva.kafka.pool;
 
+import bva.kafka.exceptions.KafkaSourceException;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -11,7 +12,7 @@ import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-class KafkaTlvLibraryException extends SourceKafkaException{
+class KafkaTlvLibraryException extends KafkaSourceException {
     public KafkaTlvLibraryException() {}
     public KafkaTlvLibraryException(String msg) {
         super(msg);
