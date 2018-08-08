@@ -1,12 +1,20 @@
 package bva.kafka.pool;
 
+import bva.kafka.exceptions.OffsetStorageException;
+import org.apache.kafka.clients.consumer.Consumer;
+import org.apache.kafka.common.TopicPartition;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import java.util.Collection;
+
 public class OffsetsController {
     private static final Logger logger = LogManager.getLogger(OffsetsController.class);
     private Consumer<?,?> consumer;
     private IKafkaOffsetStorage storage;
     private CancellationToken cancellationToken;
 
-    public OffsetsController (Consumer<?,?> consumer, IKafkaOffsetStorage storage, CancellationToken cancellationToken){
+    public OffsetsController (Consumer<?,?> consumer, IKafk aOffsetStorage storage, CancellationToken cancellationToken){
         this.consumer = consumer;
         this.storage = storage;
         this.cancellationToken = cancellationToken;
@@ -25,7 +33,7 @@ public class OffsetsController {
         }
     }
     @Override
-    public void onPartitionsAssigned (Collection <TopicPartition> partitions) {
+    public void onPartitionsAssigned (Collection<TopicPartition> partitions) {
         try {
             for (TopicPartition partition : partitions) {
                 long position = storage.getPosition ( partition );
