@@ -1,9 +1,14 @@
 package bva.kafka.pool;
 
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.logging.log4j.message.MapMessage;
 
+import java.util.Set;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 class KafkaTlvLibraryException extends SourceKafkaException{
@@ -90,11 +95,11 @@ public class KafkaWorker extends Thread  {
             while (!(cancellationToken.getState ())) {
                 //Получение записей
                 logger.debug ( "Receive new records from Apache Kafka" );
-                ConsumerRecords <String, String> records = consumer.poll (poolTimeout);
+                ConsumerRecords<String, String> records = consumer.poll (poolTimeout);
                 prevCount = records.count ( );
                 logger.debug ( "Received " + records.count ( ) + " records" );
                 // Обрабатываем все полученные сообщения
-                for (ConsumerRecord <String, String> record : records) {
+                for (ConsumerRecord<String, String> record : records) {
                     DecryptedMessage msg = null;
                     try {
                         if (record.value ().isEmpty ())

@@ -14,7 +14,7 @@ public class OffsetsController {
     private IKafkaOffsetStorage storage;
     private CancellationToken cancellationToken;
 
-    public OffsetsController (Consumer<?,?> consumer, IKafk aOffsetStorage storage, CancellationToken cancellationToken){
+    public OffsetsController (Consumer<?,?> consumer, IKafkaOffsetStorage storage, CancellationToken cancellationToken){
         this.consumer = consumer;
         this.storage = storage;
         this.cancellationToken = cancellationToken;
