@@ -24,7 +24,7 @@ public class ZookeeperOffsetStorage implements OffsetStorage {
     private String offsetStoragePath;
     private final int ZOO_TIMEOUT = 20000;
 
-    public ZookeeperOffsetStorage(String hosts, String path, TopicPartition topicPartition) throws IOException {
+    ZookeeperOffsetStorage(String hosts, String path, TopicPartition topicPartition) throws IOException {
         this.path = path;
         this.topicPartition = topicPartition;
         this.offsetStoragePath = createFullPath(topicPartition.topic(), topicPartition.partition());
@@ -42,7 +42,7 @@ public class ZookeeperOffsetStorage implements OffsetStorage {
             if (previousPosition < position) {
                 updatePosition(path, position);
             } else {
-                throw new WrongOffsetException(String.format("Bad offset in: %s, current: %d, new: %d", offsetStoragePath, position, previousPosition)); // TODO: 20.04.2018 изменить на WrongOffsetException
+                throw new WrongOffsetException(String.format("Bad offset in: %s, current: %d, new: %d", offsetStoragePath, position, previousPosition));
             }
         } catch (KeeperException ex) {
             throw new OffsetStorageException(ex);

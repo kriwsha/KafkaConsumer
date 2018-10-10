@@ -1,6 +1,7 @@
 package bva.kafka.pool;
 
 import bva.kafka.exceptions.KafkaSourceException;
+import com.google.gson.Gson;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -8,6 +9,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.logging.log4j.message.MapMessage;
 
+import java.util.Arrays;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -81,12 +83,12 @@ public class KafkaWorker extends Thread  {
             if (_settings.getOffsetStorageType () != KafkaOffsetStorageType.DEFAULT ) {
                 _offsetStorage = createOffsetStorage ( );
                 // Подписка на тему в Кафка вместе с контролером событий
-                consumer.subscribe ( Arrays.asList ( _settings.getTopic () ) , new OffsetsController ( consumer, _offsetStorage,cancellationToken ));
+                consumer.subscribe (Arrays.asList ( _settings.getTopic () ) , new OffsetsController ( consumer, _offsetStorage,cancellationToken ));
             }
             else{
-                consumer.subscribe ( Arrays.asList ( _settings.getTopic () ));
+                consumer.subscribe (Arrays.asList ( _settings.getTopic () ));
             }
-            Gson gson = new Gson ( );
+            Gson gson = new Gson();
             int prevCount = 0;
             // Засыпаем в первый раз на случайное время для равномерного распределения нагрузки между потоками
             /*Random rnd = new Random();
