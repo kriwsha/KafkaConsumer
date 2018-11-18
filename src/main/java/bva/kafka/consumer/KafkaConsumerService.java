@@ -116,7 +116,7 @@ public class KafkaConsumerService implements ConsumerService {
                 for (ConsumerRecord<String, String> record : records) {
                     try {
                         String msg = record.value();
-                        if (msg.isEmpty ()) {
+                        if (msg.isEmpty()) {
                             throw new KafkaSourceException(String.format("Тело сообщения пусто :: партиция: %s; смещение: %s", record.partition(), record.offset()));
                         }
                         handlerService.handle(msg);
