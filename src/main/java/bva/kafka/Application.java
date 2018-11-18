@@ -10,8 +10,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-
-
 @Configuration
 @EnableConfigurationProperties
 @ComponentScan
@@ -23,8 +21,9 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
+		Thread thread = null;
 		try {
-			Thread thread = new Thread(() -> consumer.start());
+			thread = new Thread(() -> consumer.start());
 			thread.start();
 
 			Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -33,6 +32,10 @@ public class Application implements CommandLineRunner {
 			}));
 		} catch (Exception ex) {
 			logger.error("Error while consumer threads execution", ex);
+		} finally {
+			if (thread != null && thread.isAlive()) {
+				thread.stop();
+			}
 		}
 	}
 
